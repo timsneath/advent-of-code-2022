@@ -24,6 +24,7 @@ int topThreeCalorificElves(List<String> data) {
   return elvesSortedByCalories.reversed.take(3).sum;
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'data/day01.txt';
   final data = File(path).readAsLinesSync();
@@ -31,3 +32,4 @@ void main(List<String> args) {
   print(mostCalorificElf(data));
   print(topThreeCalorificElves(data));
 }
+// coverage:ignore-end
