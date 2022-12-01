@@ -28,13 +28,10 @@ jobs:
       - name: Add code coverage package
         run: dart pub global activate coverage
 
-      - name: Generate code coverage
-        run: dart test --coverage=coverage
-
-      - name: Convert code coverage into lcov file
-        run: dart pub global run coverage:format_coverage --lcov --in=coverage --check-ignore --out=lcov.info --packages=.packages
+      - name: Run tests
+        run: dart pub global run coverage:test_with_coverage
 
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
-          files: lcov.info
+          files: coverage/lcov.info
