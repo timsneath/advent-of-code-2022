@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../day01/day01.dart';
+import '../bin/day01.dart';
 
 void main() {
   test('Elf calorie count', () {
