@@ -1,0 +1,6 @@
+{
+    "markdownlint.config": {
+        // For this project, disable requirement for alt text because of badges
+        "MD045": false
+    }
+}

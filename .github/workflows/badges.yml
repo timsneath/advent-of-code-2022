@@ -1,4 +1,4 @@
-name: Update AoC Badges
+name: Badges
 
 on:
   push:
