@@ -8,7 +8,7 @@ List<String> splitInHalf(String string) => [
       string.substring(string.length ~/ 2)
     ];
 
-String firstCommonCharacterIn(List<String> items) {
+String firstCommonCharacter(List<String> items) {
   for (final char in items.first.characters) {
     if (items.every((string) => string.contains(char))) return char;
   }
@@ -28,17 +28,11 @@ int calculatePriority(String character) {
   return 0;
 }
 
-int sumPriorities(List<String> rows) => rows
-    .map(splitInHalf)
-    .map(firstCommonCharacterIn)
-    .map(calculatePriority)
-    .sum;
+int sumPriorities(List<String> rows) =>
+    rows.map(splitInHalf).map(firstCommonCharacter).map(calculatePriority).sum;
 
-int sumPriorityTriads(List<String> rows) => rows
-    .splitBeforeIndexed((index, _) => index % 3 == 0)
-    .map(firstCommonCharacterIn)
-    .map(calculatePriority)
-    .sum;
+int sumPriorityTriads(List<String> rows) =>
+    rows.slices(3).map(firstCommonCharacter).map(calculatePriority).sum;
 
 // coverage:ignore-start
 void main(List<String> args) {

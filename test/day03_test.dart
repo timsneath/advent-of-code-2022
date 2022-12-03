@@ -10,20 +10,19 @@ void main() {
   });
 
   test('Letter in common', () {
-    expect(firstCommonCharacterIn(['abc', 'def']), isEmpty);
-    expect(
-        firstCommonCharacterIn(['vJrwpWtwJgWr', 'hcsFMMfFFhFp']), equals('p'));
-    expect(firstCommonCharacterIn(['jqHRNqRjqzjGDLGL', 'rsFMfFZSrLrFZsSL']),
+    expect(firstCommonCharacter(['abc', 'def']), isEmpty);
+    expect(firstCommonCharacter(['vJrwpWtwJgWr', 'hcsFMMfFFhFp']), equals('p'));
+    expect(firstCommonCharacter(['jqHRNqRjqzjGDLGL', 'rsFMfFZSrLrFZsSL']),
         equals('L'));
     expect(
-        firstCommonCharacterIn(<String>[
+        firstCommonCharacter(<String>[
           'vJrwpWtwJgWrhcsFMMfFFhFp',
           'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
           'PmmdzqPrVvPwwTWBwg'
         ]),
         equals('r'));
     expect(
-        firstCommonCharacterIn(<String>[
+        firstCommonCharacter(<String>[
           'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
           'ttgJtRGJQctTZtZT',
           'CrZsJsPPZsGzwwsLwLmpwMDw'
