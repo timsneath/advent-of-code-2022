@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/day%20📅-3-blue)
 ![](https://img.shields.io/badge/stars%20⭐-6-yellow)
 [![Language](https://img.shields.io/badge/language-Dart-blue.svg)](https://dart.dev)
-[![Build](https://github.com/timsneath/advent-of-code-2022/actions/workflows/setup.yml/badge.svg)](https://github.com/timsneath/advent-of-code-2022/actions/workflows/setup.yml)
+[![Build](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml/badge.svg)](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/timsneath/advent-of-code-2022/branch/main/graph/badge.svg?token=KuWixof02N)](https://codecov.io/gh/timsneath/advent-of-code-2022)
 
 Daily programming puzzles at Advent of Code (<https://adventofcode.com/>), by the wonderful Eric Wastl (<http://was.tl/>).
