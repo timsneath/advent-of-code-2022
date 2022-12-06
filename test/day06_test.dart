@@ -23,4 +23,10 @@ void main() {
     expect(
         findMarkerEndIndex('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw', 14), equals(26));
   });
+
+  test('Test some bad input', () {
+    expect(findMarkerEndIndex('', 1), equals(-1));
+    expect(findMarkerEndIndex('abcabcabc', 4), equals(-1));
+    expect(findMarkerEndIndex('ab', 700), equals(-1));
+  });
 }
