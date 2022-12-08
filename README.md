@@ -1,7 +1,7 @@
 # Advent of Code 2022
 
-![](https://img.shields.io/badge/day%20📅-7-blue)
-![](https://img.shields.io/badge/stars%20⭐-14-yellow)
+![](https://img.shields.io/badge/day%20📅-8-blue)
+![](https://img.shields.io/badge/stars%20⭐-16-yellow)
 [![Language](https://img.shields.io/badge/language-Dart-blue.svg)](https://dart.dev)
 [![Build](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml/badge.svg)](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/timsneath/advent-of-code-2022/branch/main/graph/badge.svg?token=KuWixof02N)](https://codecov.io/gh/timsneath/advent-of-code-2022)
