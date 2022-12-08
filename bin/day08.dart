@@ -74,11 +74,7 @@ class Forest {
     var visibleTrees = 0;
     for (final tree in trees) {
       visibleTrees++;
-      if (tree < treeHeight) {
-        continue;
-      } else {
-        break;
-      }
+      if (tree >= treeHeight) break;
     }
     return visibleTrees;
   }
