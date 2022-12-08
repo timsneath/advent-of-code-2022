@@ -88,10 +88,7 @@ int part2(List<String> data) {
 
   final sorted = totals.values.toList()..sort();
 
-  for (final entry in sorted) {
-    if (entry >= spaceToFind) return entry;
-  }
-  return -1;
+  return sorted.firstWhere((entry) => entry >= spaceToFind);
 }
 
 // coverage:ignore-start
