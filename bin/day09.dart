@@ -12,82 +12,94 @@ class Position {
   void moveRight() => col++;
   void moveUp() => row--;
   void moveDown() => row++;
+
+  @override
+  String toString() => 'r: $row, c: $col';
 }
 
 class Bridge {
   final List<List<bool>> grid;
-  final Position head;
-  final Position tail;
+  final List<Position> knots;
 
-  Bridge._(this.grid, this.head, this.tail);
+  Bridge._(this.grid, this.knots);
 
-  factory Bridge.filled({int width = 10, int height = 10}) {
+  factory Bridge.filled(
+      {int width = 10,
+      int height = 10,
+      Position? startPosition,
+      int knotCount = 2}) {
     final grid = List<List<bool>>.generate(
         height, (_) => List<bool>.filled(width, false));
-    final head = Position(col: width ~/ 2, row: height ~/ 2);
-    final tail = Position(col: width ~/ 2, row: height ~/ 2);
-    return Bridge._(grid, head, tail);
+    final knots = List<Position>.generate(
+        knotCount,
+        (index) => startPosition != null
+            ? Position(col: startPosition.col, row: startPosition.row)
+            : Position(col: width ~/ 2, row: height ~/ 2));
+
+    return Bridge._(grid, knots);
   }
 
   int get rows => grid.length;
   int get cols => grid[0].length;
 
-  bool isTailAdjacent() {
-    return (tail.row == head.row && tail.col == head.col) ||
-        (tail.row + 1 == head.row && tail.col == head.col) ||
-        (tail.row - 1 == head.row && tail.col == head.col) ||
-        (tail.row == head.row && tail.col + 1 == head.col) ||
-        (tail.row == head.row && tail.col - 1 == head.col) ||
-        (tail.row + 1 == head.row && tail.col + 1 == head.col) ||
-        (tail.row + 1 == head.row && tail.col - 1 == head.col) ||
-        (tail.row - 1 == head.row && tail.col + 1 == head.col) ||
-        (tail.row - 1 == head.row && tail.col - 1 == head.col);
+  Position get head => knots.first;
+  Position get tail => knots.last;
+
+  bool isAdjacent(Position a, Position b) {
+    return (a.row == b.row && a.col == b.col) ||
+        (a.row + 1 == b.row && a.col == b.col) ||
+        (a.row - 1 == b.row && a.col == b.col) ||
+        (a.row == b.row && a.col + 1 == b.col) ||
+        (a.row == b.row && a.col - 1 == b.col) ||
+        (a.row + 1 == b.row && a.col + 1 == b.col) ||
+        (a.row + 1 == b.row && a.col - 1 == b.col) ||
+        (a.row - 1 == b.row && a.col + 1 == b.col) ||
+        (a.row - 1 == b.row && a.col - 1 == b.col);
   }
 
   void moveHeadRight() {
     head.moveRight();
-    if (!isTailAdjacent()) moveTail();
+    if (!isAdjacent(head, tail)) moveKnot(head, tail);
   }
 
   void moveHeadLeft() {
     head.moveLeft();
-    if (!isTailAdjacent()) moveTail();
+    if (!isAdjacent(head, tail)) moveKnot(head, tail);
   }
 
   void moveHeadUp() {
     head.moveUp();
-    if (!isTailAdjacent()) moveTail();
+    if (!isAdjacent(head, tail)) moveKnot(head, tail);
   }
 
   void moveHeadDown() {
     head.moveDown();
-    if (!isTailAdjacent()) moveTail();
+    if (!isAdjacent(head, tail)) moveKnot(head, tail);
   }
 
-  void moveTail() {
-    // Rule 1: move directly
-    if (head.col == tail.col + 2 && head.row == tail.row) {
-      tail.moveRight();
-    } else if (head.col == tail.col - 2 && head.row == tail.row) {
-      tail.moveLeft();
-    } else if (head.col == tail.col && head.row == tail.row + 2) {
-      tail.moveDown();
-    } else if (head.col == tail.col && head.row == tail.row - 2) {
-      tail.moveUp();
-    } else if (tail.col < head.col && tail.row < head.row) {
-      tail
+  void moveKnot(Position first, Position next) {
+    if (first.col == next.col + 2 && first.row == next.row) {
+      next.moveRight();
+    } else if (first.col == next.col - 2 && first.row == next.row) {
+      next.moveLeft();
+    } else if (first.col == next.col && first.row == next.row + 2) {
+      next.moveDown();
+    } else if (first.col == next.col && first.row == next.row - 2) {
+      next.moveUp();
+    } else if (next.col < first.col && next.row < first.row) {
+      next
         ..moveDown()
         ..moveRight();
-    } else if (tail.col > head.col && tail.row < head.row) {
-      tail
+    } else if (next.col > first.col && next.row < first.row) {
+      next
         ..moveDown()
         ..moveLeft();
-    } else if (tail.col < head.col && tail.row > head.row) {
-      tail
+    } else if (next.col < first.col && next.row > first.row) {
+      next
         ..moveUp()
         ..moveRight();
-    } else if (tail.col > head.col && tail.row > head.row) {
-      tail
+    } else if (next.col > first.col && next.row > first.row) {
+      next
         ..moveUp()
         ..moveLeft();
     }
@@ -96,14 +108,20 @@ class Bridge {
   @override
   String toString() {
     final grid = List<String>.filled(rows * cols, '.');
-    final tailPos = (tail.row * cols) + tail.col;
-    final headPos = (head.row * cols) + head.col;
 
-    grid[tailPos] = 'T';
-    grid[headPos] = 'H';
-    final foo = grid.slices(cols).map((element) => element.join());
-    final toPrint = foo.join('\n');
-    return toPrint;
+    for (var i = knots.length - 1; i >= 0; i--) {
+      final knot = (knots[i].row * cols) + knots[i].col;
+
+      if (i == 0) {
+        grid[knot] = 'H';
+      } else if (i == 1 && knots.length == 2) {
+        grid[knot] = 'T';
+      } else {
+        grid[knot] = '$i';
+      }
+    }
+
+    return grid.slices(cols).map((element) => element.join()).join('\n');
   }
 
   void markTailLocation() {
@@ -115,7 +133,6 @@ class Bridge {
     return locations;
   }
 
-  bool getValue({required int row, required int col}) => grid[row][col];
   void setValue(bool value, {required int row, required int col}) =>
       grid[row][col] = value;
 
