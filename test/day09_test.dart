@@ -14,6 +14,19 @@ const testData = <String>[
 ];
 
 void main() {
+  group('position', () {
+    test('toString', () {
+      final position = Position(col: 3, row: 4)
+        ..moveDown()
+        ..moveUp()
+        ..moveUp()
+        ..moveLeft()
+        ..moveRight()
+        ..moveRight();
+      expect(position.toString(), equals('r: 3, c: 4'));
+    });
+  });
+
   group('part 1', () {
     test('no moves', () {
       final bridge = Bridge.filled(
@@ -43,6 +56,20 @@ void main() {
           height: 5, width: 6, startPosition: Position(row: 4, col: 0))
         ..moveMultiple(testData);
       expect(bridge.countTailVisitedLocation(), equals(13));
+    });
+
+    test('correct locations visited with large map', () {
+      final bridge = Bridge.filled()..moveMultiple(testData);
+      expect(bridge.countTailVisitedLocation(), equals(13));
+    });
+
+    test('moveDown', () {
+      final bridge = Bridge.filled(knotCount: 10)..moveSingle('D 10');
+      expect(bridge.countTailVisitedLocation(), equals(2));
+
+      final bridge2 = Bridge.filled(width: 100, height: 100, knotCount: 20)
+        ..moveSingle('D 50');
+      expect(bridge2.countTailVisitedLocation(), equals(32));
     });
   });
 

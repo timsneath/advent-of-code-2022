@@ -45,6 +45,25 @@ class Bridge {
   Position get head => knots.first;
   Position get tail => knots.last;
 
+  @override
+  String toString() {
+    final grid = List<String>.filled(rows * cols, '.');
+
+    for (var i = knots.length - 1; i >= 0; i--) {
+      final knot = (knots[i].row * cols) + knots[i].col;
+
+      if (i == 0) {
+        grid[knot] = 'H';
+      } else if (i == 1 && knots.length == 2) {
+        grid[knot] = 'T';
+      } else {
+        grid[knot] = '$i';
+      }
+    }
+
+    return grid.slices(cols).map((element) => element.join()).join('\n');
+  }
+
   bool isAdjacent(Position a, Position b) {
     return (a.row == b.row && a.col == b.col) ||
         (a.row + 1 == b.row && a.col == b.col) ||
@@ -55,26 +74,6 @@ class Bridge {
         (a.row + 1 == b.row && a.col - 1 == b.col) ||
         (a.row - 1 == b.row && a.col + 1 == b.col) ||
         (a.row - 1 == b.row && a.col - 1 == b.col);
-  }
-
-  void moveHeadRight() {
-    head.moveRight();
-    moveRope();
-  }
-
-  void moveHeadLeft() {
-    head.moveLeft();
-    moveRope();
-  }
-
-  void moveHeadUp() {
-    head.moveUp();
-    moveRope();
-  }
-
-  void moveHeadDown() {
-    head.moveDown();
-    moveRope();
   }
 
   void moveRope() {
@@ -113,25 +112,6 @@ class Bridge {
     }
   }
 
-  @override
-  String toString() {
-    final grid = List<String>.filled(rows * cols, '.');
-
-    for (var i = knots.length - 1; i >= 0; i--) {
-      final knot = (knots[i].row * cols) + knots[i].col;
-
-      if (i == 0) {
-        grid[knot] = 'H';
-      } else if (i == 1 && knots.length == 2) {
-        grid[knot] = 'T';
-      } else {
-        grid[knot] = '$i';
-      }
-    }
-
-    return grid.slices(cols).map((element) => element.join()).join('\n');
-  }
-
   void markTailLocation() {
     setValue(true, row: tail.row, col: tail.col);
   }
@@ -152,18 +132,19 @@ class Bridge {
       markTailLocation();
       switch (direction) {
         case 'U':
-          moveHeadUp();
+          head.moveUp();
           break;
         case 'D':
-          moveHeadDown();
+          head.moveDown();
           break;
         case 'L':
-          moveHeadLeft();
+          head.moveLeft();
           break;
         case 'R':
-          moveHeadRight();
+          head.moveRight();
           break;
       }
+      moveRope();
       markTailLocation();
     }
   }
@@ -174,17 +155,6 @@ class Bridge {
     }
   }
 }
-
-const testData = <String>[
-  'R 4',
-  'U 4',
-  'L 3',
-  'D 1',
-  'R 4',
-  'D 1',
-  'L 5',
-  'R 2',
-];
 
 // coverage:ignore-start
 void main(List<String> args) {
