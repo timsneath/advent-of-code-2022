@@ -15,13 +15,27 @@ class Position {
 
   @override
   String toString() => 'r: $row, c: $col';
+
+  bool adjacentTo(Position other) {
+    return (row == other.row && col == other.col) ||
+        (row + 1 == other.row && col == other.col) ||
+        (row - 1 == other.row && col == other.col) ||
+        (row == other.row && col + 1 == other.col) ||
+        (row == other.row && col - 1 == other.col) ||
+        (row + 1 == other.row && col + 1 == other.col) ||
+        (row + 1 == other.row && col - 1 == other.col) ||
+        (row - 1 == other.row && col + 1 == other.col) ||
+        (row - 1 == other.row && col - 1 == other.col);
+  }
 }
 
 class Bridge {
   final List<List<bool>> grid;
   final List<Position> knots;
 
-  Bridge._(this.grid, this.knots);
+  Bridge._(this.grid, this.knots) {
+    markTailLocation();
+  }
 
   factory Bridge.filled(
       {int width = 10,
@@ -64,21 +78,9 @@ class Bridge {
     return grid.slices(cols).map((element) => element.join()).join('\n');
   }
 
-  bool isAdjacent(Position a, Position b) {
-    return (a.row == b.row && a.col == b.col) ||
-        (a.row + 1 == b.row && a.col == b.col) ||
-        (a.row - 1 == b.row && a.col == b.col) ||
-        (a.row == b.row && a.col + 1 == b.col) ||
-        (a.row == b.row && a.col - 1 == b.col) ||
-        (a.row + 1 == b.row && a.col + 1 == b.col) ||
-        (a.row + 1 == b.row && a.col - 1 == b.col) ||
-        (a.row - 1 == b.row && a.col + 1 == b.col) ||
-        (a.row - 1 == b.row && a.col - 1 == b.col);
-  }
-
   void moveRope() {
     for (var knot = 0; knot < knots.length - 1; knot++) {
-      if (!isAdjacent(knots[knot], knots[knot + 1])) {
+      if (!knots[knot].adjacentTo(knots[knot + 1])) {
         moveKnot(knots[knot], knots[knot + 1]);
       }
     }
@@ -112,14 +114,10 @@ class Bridge {
     }
   }
 
-  void markTailLocation() {
-    setValue(true, row: tail.row, col: tail.col);
-  }
+  void markTailLocation() => setValue(true, row: tail.row, col: tail.col);
 
-  int countTailVisitedLocation() {
-    final locations = grid.flattened.where((element) => element == true).length;
-    return locations;
-  }
+  int countTailVisitedLocation() =>
+      grid.flattened.where((element) => element == true).length;
 
   void setValue(bool value, {required int row, required int col}) =>
       grid[row][col] = value;
@@ -129,7 +127,6 @@ class Bridge {
     final direction = step.first;
     final iterations = int.parse(step.last);
     for (var i = 0; i < iterations; i++) {
-      markTailLocation();
       switch (direction) {
         case 'U':
           head.moveUp();
@@ -149,11 +146,8 @@ class Bridge {
     }
   }
 
-  void moveMultiple(List<String> instructions) {
-    for (final instruction in instructions) {
-      moveSingle(instruction);
-    }
-  }
+  void moveMultiple(List<String> instructions) =>
+      instructions.forEach(moveSingle);
 }
 
 // coverage:ignore-start
