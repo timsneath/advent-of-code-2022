@@ -59,22 +59,30 @@ class Bridge {
 
   void moveHeadRight() {
     head.moveRight();
-    if (!isAdjacent(head, tail)) moveKnot(head, tail);
+    moveRope();
   }
 
   void moveHeadLeft() {
     head.moveLeft();
-    if (!isAdjacent(head, tail)) moveKnot(head, tail);
+    moveRope();
   }
 
   void moveHeadUp() {
     head.moveUp();
-    if (!isAdjacent(head, tail)) moveKnot(head, tail);
+    moveRope();
   }
 
   void moveHeadDown() {
     head.moveDown();
-    if (!isAdjacent(head, tail)) moveKnot(head, tail);
+    moveRope();
+  }
+
+  void moveRope() {
+    for (var knot = 0; knot < knots.length - 1; knot++) {
+      if (!isAdjacent(knots[knot], knots[knot + 1])) {
+        moveKnot(knots[knot], knots[knot + 1]);
+      }
+    }
   }
 
   void moveKnot(Position first, Position next) {
@@ -183,10 +191,11 @@ void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'data/day09.txt';
   final data = File(path).readAsLinesSync();
 
-  final bridge = Bridge.filled(width: 1000, height: 1000);
-  for (final row in data) {
-    bridge.moveSingle(row);
-  }
-  print(bridge.countTailVisitedLocation());
+  final part1 = Bridge.filled(width: 1000, height: 1000)..moveMultiple(data);
+  print(part1.countTailVisitedLocation());
+
+  final part2 = Bridge.filled(width: 1000, height: 1000, knotCount: 10)
+    ..moveMultiple(data);
+  print(part2.countTailVisitedLocation());
 }
 // coverage:ignore-end
