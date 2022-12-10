@@ -158,12 +158,12 @@ void main() {
     test('cpu runs', () {
       final cpu = CPU(simpleData)..start();
       expect(cpu.x, equals(-1));
-      expect(cpu.cycles, equals(5));
+      expect(cpu.cycleInFrame, equals(6));
       expect(cpu.pc, equals(3));
     });
 
     test('sample data', () {
-      final cpu = CPU(testData, 20)..start();
+      final cpu = CPU(testData, cyclesPerLogpoint: 20)..start();
       expect(cpu.xHistory[0], equals(21));
       expect(cpu.xHistory[2], equals(19));
       expect(cpu.xHistory[4], equals(18));
@@ -180,5 +180,14 @@ void main() {
     });
   });
 
-  group('part 2', () {});
+  group('part 2', () {
+    test('display test', () {
+      final cpu = CPU(testData)..start();
+      expect(cpu.crtBuffer.length, equals(240));
+      expect(cpu.display.split('\n').first,
+          startsWith('##..##..##..##..##..##..##..##..##..##..'));
+      expect(cpu.display.split('\n').last,
+          startsWith('#######.......#######.......#######.....'));
+    });
+  });
 }
