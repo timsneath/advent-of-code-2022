@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 
 import '../bin/day09.dart';
+import '../bin/shared/position.dart';
 
 const testData = <String>[
   'R 4',
