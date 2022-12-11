@@ -105,7 +105,7 @@ void main() {
   });
 
   group('part 2', () {
-    test('total items after 10000 rounds', () {
+    test('total items after n rounds', () {
       final monkeys1 = Monkeys.fromData(testData, divideByThreeRule: false)
         ..processRounds(1);
       expect(monkeys1.itemsInspected, equals([2, 4, 3, 6]));
@@ -117,6 +117,12 @@ void main() {
       final monkeys1000 = Monkeys.fromData(testData, divideByThreeRule: false)
         ..processRounds(1000);
       expect(monkeys1000.itemsInspected, equals([5204, 4792, 199, 5192]));
+    });
+
+    test('total items after 10000 rounds', () {
+      final monkeys = Monkeys.fromData(testData, divideByThreeRule: false)
+        ..processRounds(10000);
+      expect(monkeys.topTwoMonkeysProduct(), equals(2713310158));
     });
   });
 }

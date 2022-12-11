@@ -65,9 +65,11 @@ class Monkey {
     final newWorryLevel = operation.calculate(oldWorryLevel);
     final boredWorryLevel =
         divideByThreeRule ? newWorryLevel ~/ 3 : newWorryLevel;
-    final newMonkey =
-        boredWorryLevel % testModulo == 0 ? throwIfTrue : throwIfFalse;
-    return ThrownItem(newMonkey, boredWorryLevel);
+    if (boredWorryLevel % testModulo == 0) {
+      return ThrownItem(throwIfTrue, boredWorryLevel);
+    } else {
+      return ThrownItem(throwIfFalse, boredWorryLevel);
+    }
   }
 
   Iterable<ThrownItem> processItems() {
@@ -128,7 +130,11 @@ class Monkeys {
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'data/day11.txt';
   final data = File(path).readAsLinesSync();
-  final monkeys = Monkeys.fromData(data)..processRounds(20);
-  print(monkeys.topTwoMonkeysProduct());
+  final part1 = Monkeys.fromData(data)..processRounds(20);
+  print(part1.topTwoMonkeysProduct());
+
+  final part2 = Monkeys.fromData(data, divideByThreeRule: false)
+    ..processRounds(10000);
+  print(part2.topTwoMonkeysProduct());
 }
 // coverage:ignore-end
