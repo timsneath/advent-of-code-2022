@@ -1,6 +1,6 @@
 # Advent of Code 2022
 
-![](https://img.shields.io/badge/day%20📅-11-blue)
+![](https://img.shields.io/badge/day%20📅-13-blue)
 ![](https://img.shields.io/badge/stars%20⭐-21-yellow)
 [![Language](https://img.shields.io/badge/language-Dart-blue.svg)](https://dart.dev)
 [![Build](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml/badge.svg)](https://github.com/timsneath/advent-of-code-2022/actions/workflows/build.yml)
